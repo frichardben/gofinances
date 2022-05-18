@@ -29,6 +29,12 @@ module.exports = {
     'prettier/prettier': 'error',
     'no-use-before-define': 'off',
     '@typescript-eslint/no-use-before-define': ['error'],
+    '@typescript-eslint/no-empty-interface': [
+      'error',
+      {
+        allowSingleExtends: true,
+      },
+    ],
     'import/extensions': ['error', 'never'],
     'react/prop-types': 0,
     'no-shadow': 'off',
