@@ -1,7 +1,6 @@
 import React from 'react'
-import { getBottomSpace } from 'react-native-iphone-x-helper'
 import HighlightCard from '../../components/HighlightCard'
-import TransactionCard from '../../components/TransactionCard'
+import TransactionCard, { IData } from '../../components/TransactionCard'
 
 import {
   Container,
@@ -19,10 +18,15 @@ import {
   TransactionList,
 } from './styles'
 
+export interface IDataListProps extends IData {
+  id: string
+}
+
 function Dashboard() {
-  const data = [
+  const data: IDataListProps[] = [
     {
       id: '1',
+      type: 'positive',
       title: 'Desenvolvimento de site',
       amount: 'R$ 12.000,00',
       category: {
@@ -33,21 +37,23 @@ function Dashboard() {
     },
     {
       id: '2',
-      title: 'Desenvolvimento de site',
-      amount: 'R$ 12.000,00',
+      type: 'negative',
+      title: 'Hamburger',
+      amount: 'R$ 59,00',
       category: {
-        name: 'Vendas',
-        icon: 'dollar-sign',
+        name: 'Alimentação',
+        icon: 'coffee',
       },
       date: '13/05/2022',
     },
     {
       id: '3',
-      title: 'Desenvolvimento de site',
-      amount: 'R$ 12.000,00',
+      type: 'negative',
+      title: 'Aluguel do Apartamento',
+      amount: 'R$ 1.000,00',
       category: {
-        name: 'Vendas',
-        icon: 'dollar-sign',
+        name: 'Casa',
+        icon: 'shopping-bag',
       },
       date: '13/05/2022',
     },
@@ -99,15 +105,7 @@ function Dashboard() {
           data={data}
           keyExtractor={(item) => item.id}
           renderItem={({ item }) => <TransactionCard data={item} />}
-          showsVerticalScrollIndicator={false}
-          contentContainerStyle={{
-            paddingBottom: getBottomSpace(),
-          }}
         />
-        {/* <TransactionList
-          data={data}
-          renderItem={({ item }) => <TransactionCard data={item} />}
-        /> */}
       </Transactions>
     </Container>
   )
