@@ -44,5 +44,6 @@ module.exports = {
       { properties: 'never', ignoreImports: true, ignoreDestructuring: true },
     ],
     'react/jsx-props-no-spreading': 'off',
+    'react/require-default-props': 'off',
   },
 }
