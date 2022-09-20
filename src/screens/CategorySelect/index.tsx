@@ -19,7 +19,7 @@ interface Category {
 }
 
 interface CategoryProps {
-  category: string
+  category: Category
   setCategory: (category: Category) => void
   closeSelectCategory: () => void
 }
@@ -31,10 +31,14 @@ function CategorySelect({
 }: CategoryProps) {
   const MemoizedNestedComponent = useCallback(() => <Divider />, [])
 
+  const handleCategorySelect = (categorySelect: Category) => {
+    setCategory(categorySelect)
+  }
+
   return (
     <Container>
       <Header>
-        <Title>Cadastrar</Title>
+        <Title>Categoria</Title>
       </Header>
 
       <FlatList
@@ -42,7 +46,10 @@ function CategorySelect({
         style={{ flex: 1, width: '100%' }}
         keyExtractor={(item) => item.key}
         renderItem={({ item }) => (
-          <Category>
+          <Category
+            onPress={() => handleCategorySelect(item)}
+            isActive={category.key === item.key}
+          >
             <Icon name={item.icon} />
             <Name>{item.name}</Name>
           </Category>
@@ -51,7 +58,7 @@ function CategorySelect({
       />
 
       <Footer>
-        <Button title="Selecionar" />
+        <Button title="Selecionar" onPress={closeSelectCategory} />
       </Footer>
     </Container>
   )
