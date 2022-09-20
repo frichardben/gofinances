@@ -1,7 +1,12 @@
 import React, { useState } from 'react'
+import { Modal } from 'react-native'
+import { useForm } from 'react-hook-form'
+
 import Button from '../../components/Form/Button'
-import Input from '../../components/Form/Input'
+
+import InputForm from '../../components/Form/InputForm'
 import TransactionTypeButton from '../../components/Form/TransactionTypeButton'
+import CategorySelectButton from '../../components/Form/CategorySelectButton'
 import {
   Container,
   Header,
@@ -10,12 +15,42 @@ import {
   Fields,
   TransactionTypes,
 } from './styles'
+import CategorySelect from '../CategorySelect'
+
+interface FormData {
+  name: string
+  amount: string
+}
 
 function Register() {
   const [transactionType, setTransactionType] = useState('')
+  const [categoryModalOpen, setCategoryModalOpen] = useState(false)
+  const [category, setCategory] = useState({
+    key: 'category',
+    name: 'Categoria',
+  })
 
-  function handleTransactionTypeSelect(type: 'up' | 'down') {
+  const { control, handleSubmit } = useForm()
+
+  const handleTransactionTypeSelect = (type: 'up' | 'down') => {
     setTransactionType(type)
+  }
+
+  const handleCloseSelectCategoryModal = () => {
+    setCategoryModalOpen(false)
+  }
+
+  const handleOpenSelectCategoryModal = () => {
+    setCategoryModalOpen(true)
+  }
+
+  const handleRegister = (form: FormData) => {
+    const data = {
+      name: form.name,
+      amount: form.amount,
+      transactionType,
+      category: category.key,
+    }
   }
 
   return (
@@ -25,8 +60,8 @@ function Register() {
       </Header>
       <Form>
         <Fields>
-          <Input placeholder="Nome" />
-          <Input placeholder="Preço" />
+          <InputForm name="name" control={control} placeholder="Nome" />
+          <InputForm name="amount" control={control} placeholder="Preço" />
           <TransactionTypes>
             <TransactionTypeButton
               type="up"
@@ -41,10 +76,23 @@ function Register() {
               isActive={transactionType === 'down'}
             />
           </TransactionTypes>
+
+          <CategorySelectButton
+            title={category.name}
+            onPress={handleOpenSelectCategoryModal}
+          />
         </Fields>
 
-        <Button title="Enviar" />
+        <Button title="Enviar" onPress={handleSubmit(handleRegister)} />
       </Form>
+
+      <Modal visible={categoryModalOpen}>
+        <CategorySelect
+          category={category}
+          setCategory={setCategory}
+          closeSelectCategory={handleCloseSelectCategoryModal}
+        />
+      </Modal>
     </Container>
   )
 }
