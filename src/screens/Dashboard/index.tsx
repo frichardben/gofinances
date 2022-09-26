@@ -16,6 +16,7 @@ import {
   Transactions,
   Title,
   TransactionList,
+  LogoutButton,
 } from './styles'
 
 export interface IDataListProps extends IData {
@@ -74,7 +75,9 @@ function Dashboard() {
               <UserName>Richard</UserName>
             </User>
           </UserInfo>
-          <Icon name="power" />
+          <LogoutButton>
+            <Icon name="power" />
+          </LogoutButton>
         </UserWrapper>
       </Header>
       <HighlightCards>
